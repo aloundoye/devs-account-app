@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import cx from "classnames";
 import { useToken } from "../../Pages/Auth/useToken";
 import { useUser } from "../../Pages/Auth/useUser";
+import { useHistory } from "react-router-dom";
 
 const Schema = Yup.object().shape({
   email: Yup.string().required("Required").email(),
@@ -12,6 +13,8 @@ const Schema = Yup.object().shape({
 const BasicAuth = () => {
   const [, setToken] = useToken();
   const [, setUser] = useUser();
+  const history = useHistory();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -33,7 +36,9 @@ const BasicAuth = () => {
           setToken(data.accessToken);
           setUser(data.profile);
         });
+
       setSubmitting(false);
+      history.go(0);
     },
   });
 
